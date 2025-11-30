@@ -11,6 +11,7 @@ public class FailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fail);
 
+        // Display score status
         String status = getIntent().getStringExtra("status");
         TextView txt = findViewById(R.id.txtStatus);
         txt.setText("Status: " + status);
