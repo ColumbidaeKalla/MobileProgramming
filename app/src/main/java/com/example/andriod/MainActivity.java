@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
             int score = Integer.parseInt(s);
             Intent i;
-            String status = "";
+            String status;
 
             if (score < 40) {
                 i = new Intent(MainActivity.this, FailActivity.class);
