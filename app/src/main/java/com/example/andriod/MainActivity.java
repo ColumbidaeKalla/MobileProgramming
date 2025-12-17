@@ -3,13 +3,17 @@ package com.example.andriod;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +31,13 @@ public class MainActivity extends AppCompatActivity {
     int counter = 0;
     TextView tvCounter;
     Button btnPlus, btnMinus;
+
+    ListView listView;
+
+    GridView gridView;
+
+    RecyclerView recyclerView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +114,27 @@ public class MainActivity extends AppCompatActivity {
         });
 
         updateCounter();
+
+        super.onCreate(savedInstanceState);
+
+        /*listView = findViewById(R.id.listView);
+        String[] countries = {"Nepal", "India", "Germany", "USA"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_list_item_1, countries
+        );
+        listView.setAdapter(adapter);*/
+
+        /*gridView = findViewById(R.id.gridView);
+        String[] countries = {"Nepal", "India", "Germany", "USA"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_list_item_1, countries
+        );
+        gridView.setAdapter(adapter);*/
+
+        setContentView(R.layout.activity_main);
+        recyclerView = findViewById(R.id.recycleView);
+        RecyclerAdapter adapter = new RrecyclerAdpater(this, titles, descriptions);
+
     }
 
     private void loadFragment(Fragment fragment) {

@@ -87,4 +87,32 @@
             android:background="#f3f3f3"
             android:layout_marginTop="16dp"/>
     </LinearLayout>
+
+    <!--ListView-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <ListView
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listView"
+            android:layout_margin="10dp"
+            android:gravity="center"/>
+
+        <!--<GridView
+            android:id="@+id/gridView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="2"
+            android:horizontalSpacing="10dp"
+            android:verticalSpacing="10dp"/>-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/recycleView"/>
+    </LinearLayout>
 </ScrollView>
