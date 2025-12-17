@@ -1,6 +1,4 @@
-package com.example.andriod;
-
-import android.content.Intent;
+package com.example.andriod;import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -12,13 +10,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate; // Import this
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Theme toggle
-    boolean darkMode = false;
+    // Removed boolean darkMode = false; as it resets on recreate()
 
     // Score checker
     EditText txtMarks;
@@ -33,21 +31,10 @@ public class MainActivity extends AppCompatActivity {
     Button btnPlus, btnMinus;
 
     ListView listView;
-
     GridView gridView;
-
-    RecyclerView recyclerView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Apply theme before super.onCreate()
-        if (darkMode) {
-            setTheme(R.style.Theme_MyApp_Dark);
-        } else {
-            setTheme(R.style.Theme_Andriod);   // default
-        }
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -82,10 +69,19 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         });
 
-        // Theme toggle
+        // ==================== Theme Toggle Logic Fixed ====================
         btnTheme.setOnClickListener(v -> {
-            darkMode = !darkMode;
-            recreate(); // reload activity with new theme
+            // Get the current mode
+            int currentMode = AppCompatDelegate.getDefaultNightMode();
+
+            // Toggle the mode
+            if (currentMode == AppCompatDelegate.MODE_NIGHT_YES) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }
+            // Note: setDefaultNightMode automatically recreates the activity,
+            // so we don't need to call recreate() manually here.
         });
 
         // ==================== Fragment Switching ====================
@@ -93,7 +89,9 @@ public class MainActivity extends AppCompatActivity {
         btnFrag2 = findViewById(R.id.btnFrag2);
 
         // Load default fragment
-        loadFragment(new FragmentOne());
+        if (savedInstanceState == null) {
+            loadFragment(new FragmentOne());
+        }
 
         btnFrag1.setOnClickListener(v -> loadFragment(new FragmentOne()));
         btnFrag2.setOnClickListener(v -> loadFragment(new FragmentTwo()));
@@ -115,26 +113,20 @@ public class MainActivity extends AppCompatActivity {
 
         updateCounter();
 
-        super.onCreate(savedInstanceState);
-
-        /*listView = findViewById(R.id.listView);
+        // ==================== Lists ====================
+        listView = findViewById(R.id.listView);
         String[] countries = {"Nepal", "India", "Germany", "USA"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_list_item_1, countries
         );
-        listView.setAdapter(adapter);*/
+        listView.setAdapter(adapter);
 
-        /*gridView = findViewById(R.id.gridView);
-        String[] countries = {"Nepal", "India", "Germany", "USA"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+        gridView = findViewById(R.id.gridView);
+        // Reusing array for grid
+        ArrayAdapter<String> gridAdapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_list_item_1, countries
         );
-        gridView.setAdapter(adapter);*/
-
-        setContentView(R.layout.activity_main);
-        recyclerView = findViewById(R.id.recycleView);
-        RecyclerAdapter adapter = new RrecyclerAdpater(this, titles, descriptions);
-
+        gridView.setAdapter(gridAdapter);
     }
 
     private void loadFragment(Fragment fragment) {
@@ -150,7 +142,13 @@ public class MainActivity extends AppCompatActivity {
         if (counter < 0) {
             tvCounter.setTextColor(Color.RED);
         } else if (counter == 0) {
-            tvCounter.setTextColor(Color.BLACK);
+            // Check theme to set correct default color (White for dark mode, Black for light)
+            int currentNightMode = getResources().getConfiguration().uiMode & android.content.res.Configuration.UI_MODE_NIGHT_MASK;
+            if (currentNightMode == android.content.res.Configuration.UI_MODE_NIGHT_YES) {
+                tvCounter.setTextColor(Color.WHITE);
+            } else {
+                tvCounter.setTextColor(Color.BLACK);
+            }
         } else {
             tvCounter.setTextColor(Color.GREEN);
         }

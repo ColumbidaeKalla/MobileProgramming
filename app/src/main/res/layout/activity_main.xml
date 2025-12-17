@@ -1,27 +1,29 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true"> <!-- Added fillViewport to ensure full height usage -->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
-        android:gravity="center">
+        android:gravity="center_horizontal"> <!-- Changed to center_horizontal for better layout -->
 
         <!-- Score Checker -->
         <EditText
             android:id="@+id/txtMarks"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:hint="Enter marks"
-            android:inputType="number"/>
+            android:hint="@string/enter_marks"
+            android:inputType="number"
+            android:minHeight="48dp" />
 
         <Button
             android:id="@+id/btnCheck"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Check"/>
+            android:text="@string/check"/>
 
         <!-- Theme Toggle -->
         <Button
@@ -86,33 +88,38 @@
             android:layout_height="300dp"
             android:background="#f3f3f3"
             android:layout_marginTop="16dp"/>
-    </LinearLayout>
 
-    <!--ListView-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp">
+        <!-- LISTS SECTION FIXED BELOW -->
 
+        <!-- ListView with fixed height to ensure visibility inside ScrollView -->
         <ListView
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:id="@+id/listView"
-            android:layout_margin="10dp"
-            android:gravity="center"/>
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"
+            android:background="#E0E0E0"
+            android:nestedScrollingEnabled="true"/>
 
-        <!--<GridView
+        <!-- GridView with fixed height -->
+        <GridView
             android:id="@+id/gridView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"
             android:numColumns="2"
             android:horizontalSpacing="10dp"
-            android:verticalSpacing="10dp"/>-->
+            android:verticalSpacing="10dp"
+            android:background="#E0E0E0"
+            android:nestedScrollingEnabled="true"/>
 
+        <!-- RecyclerView with fixed height -->
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/recycleView"/>
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"
+            android:background="#E0E0E0"
+            android:nestedScrollingEnabled="false"/> <!-- False helps RV flow better inside ScrollView usually -->
+
     </LinearLayout>
 </ScrollView>
